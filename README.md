@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Реализовать элементы как на рисунке ниже
 
-## Getting Started
+1 - поле цена
+2 - поле кол-во
+3 - поле сумма
+4 - кнопка отправки данных
+5 - лейбл который отображает значение поля `цена`
+6 - лейбл который отображает значение поля `кол-во`
+7 - лейбл который отображает значение поля `сумма`
+8 - лейбл который отображает текущее состояние `localStorage`
+9 - область в которой отображается информация о возникших событиях 
+10 - в свободной форме отображать информацию о каждом событии
 
-First, run the development server:
+- Вносить изменения можно в любое поле, причем то поле, что менялось раньше всех, должно пересчитаться согласно значению изменившегося поля (важно).
+- При нажатии на кнопку, все 3 поля + counter сохраняются в localStorage. Это имитация отправки данных на backend. Добавить задержку в 1 секунду будто backend обрабатывает запрос. Условный "backend" может ответить - "{success: true}" или "{success: false}" что будет говорить - успешно сохранил/не сохранил
+- counter - монотонно возрастающее число.
+- В localStorage сохраняется 4 поля - counter, price, qty, amount. Данные из localStorage следует отображать в лейбле 8 (в виде json)
+- Мутация input`ов (1, 2, 3) с debounce 300ms
+- В блоке 9 отображаются события в обратном порядке (сверху должно быть самое свежее событие)
+    - событие изменения input-ов (1, 2, 3)
+    - событие нажатия кнопки 4 - приложить то что было отправлено, показать то что в момент нажатия в localStorage
+    - событие когда получили ответ после нажатия submit (4) - приложить то что в ответ было отправлено + то что в этот момент в localStorage
+- При нажатии кнопки 4 если amount четное число - данные успешно сохраняются
+- При нажатии кнопки 4 если amount не четное число - данные не сохраняются
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                  │
+│ ┌──────────────┐ ┌───────────────┐ ┌──────────────────┐   ┌───────────────────┐  │
+│ │input  1      │ │input   2      │ │input   3         │   │button    4        │  │
+│ └──────────────┘ └───────────────┘ └──────────────────┘   └───────────────────┘  │
+│                                                                                  │
+│  label  5         label  6          label   7              label    8            │
+│                                                                                  │
+│                                         -                                        │
+│  │DIV─9───────────────────────────────────────────────────────────────────────┐  │
+│  │                                                                            │  │
+│  │ ────10────────────────────────────────────────────────────────────────     │  │
+│  │                                                                            │  │
+│  │ ──────────────────────────────────────────────────────────────────────     │  │
+│  │                                                                            │  │
+│  │ ──────────────────────────────────────────────────────────────────────     │  │
+│  │                                                                            │  │
+│  │                                                                            │  │
+│  │                                                                            │  │
+│  │                                                                            │  │
+│  │                                                                            │  │
+│  │                                                                            │  │
+│  │                                                                            │  │
+│  │                                                                            │  │
+│  │                                                                            │  │
+│  │                                                                            │  │
+│  │                                                                            │  │
+│  │                                                                            │  │
+│  │                                                                            │  │
+│  │                                                                            │  │
+│  │                                                                            │  │
+│  │                                                                            │  │
+│  └────────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                  │
+└──────────────────────────────────────────────────────────────────────────────────┘
+```
