@@ -26,93 +26,6 @@ export function useCalculatorModel(queueEventModel: TQueueEventModel) {
   const idTimeoutPrice = useRef<NodeJS.Timeout>(null);
   const idTimeoutQuantity = useRef<NodeJS.Timeout>(null);
 
-  function changePrice(value: string) {
-    const convertedPrice = convertInputValueInNumber(value);
-
-    if (convertedPrice === null) return;
-
-    const currentQueue = getCurrentQueue(queue, "price");
-    const lastImmutableField = currentQueue[currentQueue.length - 1];
-    setPrice(convertedPrice);
-    setQueue(currentQueue);
-
-    if (lastImmutableField === "amount") {
-      const calculatedAmount = calculateAmount({
-        quantity,
-        price: convertedPrice,
-      });
-      setAmount(calculatedAmount);
-      setAmountInputValue(String(calculatedAmount));
-    }
-
-    if (lastImmutableField === "quantity") {
-      const calculatedQuantity = calculateQuantity({
-        price: convertedPrice,
-        amount,
-      });
-      setQuantity(calculatedQuantity);
-      setQuantityInputValue(String(calculatedQuantity));
-    }
-  }
-
-  function changeQuantity(value: string) {
-    const convertedQuantity = convertInputValueInNumber(value);
-
-    if (convertedQuantity === null) return;
-
-    const currentQueue = getCurrentQueue(queue, "quantity");
-    const lastImmutableField = currentQueue[currentQueue.length - 1];
-    setQuantity(convertedQuantity);
-    setQueue(currentQueue);
-
-    if (lastImmutableField === "price") {
-      const calculatedPrice = calculatePrice({
-        quantity: convertedQuantity,
-        amount,
-      });
-      setPrice(calculatedPrice);
-      setPriceInputValue(String(calculatedPrice));
-    }
-
-    if (lastImmutableField === "amount") {
-      const calculatedAmount = calculateAmount({
-        quantity: convertedQuantity,
-        price,
-      });
-      setAmount(calculatedAmount);
-      setAmountInputValue(String(calculatedAmount));
-    }
-  }
-
-  function changeAmount(value: string) {
-    const convertedAmount = convertInputValueInNumber(value);
-
-    if (convertedAmount === null) return;
-
-    const currentQueue = getCurrentQueue(queue, "amount");
-    const lastImmutableField = currentQueue[currentQueue.length - 1];
-    setAmount(convertedAmount);
-    setQueue(currentQueue);
-
-    if (lastImmutableField === "price") {
-      const calculatedPrice = calculatePrice({
-        quantity,
-        amount: convertedAmount,
-      });
-      setPrice(calculatedPrice);
-      setPriceInputValue(String(calculatedPrice));
-    }
-
-    if (lastImmutableField === "quantity") {
-      const calculatedQuantity = calculateQuantity({
-        price,
-        amount: convertedAmount,
-      });
-      setQuantity(calculatedQuantity);
-      setQuantityInputValue(String(calculatedQuantity));
-    }
-  }
-
   function onPriceChange(value: string) {
     setPriceInputValue(value);
 
@@ -150,6 +63,74 @@ export function useCalculatorModel(queueEventModel: TQueueEventModel) {
       changeAmount(value);
       queueEventModel.setEvent("событие изменения input-ов (3)");
     }, DELAY_DEBOUNCE);
+  }
+
+  function changePrice(value: string) {
+    const convertedPrice = convertInputValueInNumber(value);
+
+    if (convertedPrice === null) return;
+
+    const currentQueue = getCurrentQueue(queue, "price");
+    const lastImmutableField = currentQueue[currentQueue.length - 1];
+    setPrice(convertedPrice);
+    setQueue(currentQueue);
+    changeReactiveFields(lastImmutableField, convertedPrice);
+  }
+
+  function changeQuantity(value: string) {
+    const convertedQuantity = convertInputValueInNumber(value);
+
+    if (convertedQuantity === null) return;
+
+    const currentQueue = getCurrentQueue(queue, "quantity");
+    const lastImmutableField = currentQueue[currentQueue.length - 1];
+    setQuantity(convertedQuantity);
+    setQueue(currentQueue);
+    changeReactiveFields(lastImmutableField, convertedQuantity);
+  }
+
+  function changeAmount(value: string) {
+    const convertedAmount = convertInputValueInNumber(value);
+
+    if (convertedAmount === null) return;
+
+    const currentQueue = getCurrentQueue(queue, "amount");
+    const lastImmutableField = currentQueue[currentQueue.length - 1];
+    setAmount(convertedAmount);
+    setQueue(currentQueue);
+    changeReactiveFields(lastImmutableField, convertedAmount);
+  }
+
+  function changeReactiveFields(
+    lastImmutableField: string,
+    convertedValue: number
+  ) {
+    if (lastImmutableField === "amount") {
+      const calculatedAmount = calculateAmount({
+        quantity,
+        price: convertedValue,
+      });
+      setAmount(calculatedAmount);
+      setAmountInputValue(String(calculatedAmount));
+    }
+
+    if (lastImmutableField === "quantity") {
+      const calculatedQuantity = calculateQuantity({
+        price: convertedValue,
+        amount,
+      });
+      setQuantity(calculatedQuantity);
+      setQuantityInputValue(String(calculatedQuantity));
+    }
+
+    if (lastImmutableField === "price") {
+      const calculatedPrice = calculatePrice({
+        quantity: convertedValue,
+        amount,
+      });
+      setPrice(calculatedPrice);
+      setPriceInputValue(String(calculatedPrice));
+    }
   }
 
   return {
