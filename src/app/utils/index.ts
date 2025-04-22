@@ -1,2 +1,1 @@
-export { debounce } from './debounce'
-export { isEven } from './number'
+export { isEven } from "./number";

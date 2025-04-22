@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export function useCounterModel() {
   const [counter, setCounter] = useState<number>(0);
@@ -28,5 +28,5 @@ export function useCounterModel() {
     };
   }, []);
 
-  return useMemo(() => ({ counter }), [counter]);
+  return { counter };
 }

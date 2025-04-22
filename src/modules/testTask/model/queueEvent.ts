@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 export function useQueueEvent() {
   const [queueEvent, setQueueEvent] = useState<{ id: string; value: string }[]>(
@@ -12,5 +12,13 @@ export function useQueueEvent() {
     ]);
   }
 
-  return { queueEvent, setEvent };
+  const memoQueueEvent = useMemo(
+    () => ({
+      queueEvent,
+      setEvent,
+    }),
+    [queueEvent]
+  );
+
+  return memoQueueEvent;
 }
